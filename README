@@ -1,0 +1,6 @@
+Mashmon is a JavaScript helper for creating simple HTML mashup pages.
+
+Mashmon is a script based on jQuery (http://jquery.com) that helps
+you to create a simple HTML page which includes elements, continuously
+updates and flips through them. E.g. a monitoring page that would
+include graphs, status lines, etc. from other systems.
