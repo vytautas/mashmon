@@ -27,3 +27,6 @@ body {
 .element {
 	float: left;
 }
+.slide.vertical > .element {
+	clear: both;
+}

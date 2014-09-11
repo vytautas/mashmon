@@ -47,14 +47,18 @@ function slide(obj)
 {
 	var elements=$(obj).data("elements")?parseInt($(obj).data("elements")):default_elements;
 	var speed=$(obj).data("speed")?$(obj).data("speed"):default_speed;
+	var prop = $(obj).hasClass("vertical") ? "height" : "width";
+	var action = {};
 
 	//hide the first child and then move it to the end
-	$(obj).children(".element:first").animate({width: 'hide'}, speed, function() {
+	action[prop]="hide";
+	$(obj).children(".element:first").animate(action, speed, function() {
 		$(this).appendTo($(this).parent());
 	});
 
 	//show last element and then reload a next one
-	$(obj).children(".element:eq("+elements+")").animate({width: 'show'}, speed, function()	{
+	action[prop]="show";
+	$(obj).children(".element:eq("+elements+")").animate(action, speed, function()	{
 		reload($(this).next(".element"));
 	});
 }
