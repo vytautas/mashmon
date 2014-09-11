@@ -25,8 +25,8 @@ var default_interval=0; //0 = disabled
 // Does a single sliding action on an object
 function slide(obj)
 {
-	var elements=$(obj).attr("data-elements")?parseInt($(obj).attr("data-elements")):default_elements;
-	var speed=$(obj).attr("data-speed")?$(obj).attr("data-speed"):default_speed;
+	var elements=$(obj).data("elements")?parseInt($(obj).data("elements")):default_elements;
+	var speed=$(obj).data("speed")?$(obj).data("speed"):default_speed;
 
 	//hide the first child and then move it to the end
 	$(obj).children(".element:first").animate({width: 'hide'}, speed, function() {
@@ -55,7 +55,7 @@ function slide(obj)
 // Does a single fading action on an object
 function fade(obj)
 {
-	var speed=$(obj).attr("data-speed")?$(obj).attr("data-speed"):default_speed;
+	var speed=$(obj).data("speed")?$(obj).data("speed"):default_speed;
 
 	// hide first element and move it to the end
 	var child = $(obj).children(".element:first");
@@ -119,8 +119,8 @@ function changeHrefBase(obj, src)
 //handle snuppet objects
 function snippet(obj)
 {
-	var src=$(obj).attr("data-src");
-	var proxy=$(obj).attr("data-proxy");
+	var src=$(obj).data("src");
+	var proxy=$(obj).data("proxy");
 	//if proxy is used, replace domain with it (for cross domain requests)
 	var url=proxy?proxy+src.replace(domainname(src), ""):src;
 	$.get(
@@ -130,7 +130,7 @@ function snippet(obj)
 			function(data)
 			{
 				//filter elements from page
-				var filter=$(this).attr("data-filter");
+				var filter=$(this).data("filter");
 				if (filter)
 					var obj=$("<div>"+data+"</div>").find(filter);
 				else
@@ -157,13 +157,13 @@ $(function()
 	$(".slide").each(function()
 	{
 		//Initial hide
-		var elements=$(this).attr("data-elements")?parseInt($(this).attr("data-elements")):default_elements;
+		var elements=$(this).data("elements")?parseInt($(this).data("elements")):default_elements;
 		$(this).children(".element:gt("+(elements-1)+")").hide();
 
 		//Activate intervals
 		function interval_context(context)
 		{
-			var interval=$(context).attr("data-interval")?$(context).attr("data-interval"):default_interval;
+			var interval=$(context).data("interval")?$(context).data("interval"):default_interval;
 			if (interval>0)
 				setInterval(function() {
 					if ($(context).is(":visible")) slide(context);
@@ -189,7 +189,7 @@ $(function()
 		//Activate intervals
 		function interval_context(context)
 		{
-			var interval=$(context).attr("data-interval")?$(context).attr("data-interval"):default_interval;
+			var interval=$(context).data("interval")?$(context).data("interval"):default_interval;
 			if (interval>0)
 				setInterval(function() {
 					if ($(context).is(":visible")) fade(context);
@@ -207,7 +207,7 @@ $(function()
 	{
 		snippet(this);
 		function interval_context(context) {
-			var interval=$(context).attr("data-interval")?$(context).attr("data-interval"):default_interval;
+			var interval=$(context).data("interval")?$(context).data("interval"):default_interval;
 			if (interval>0)
 				setInterval(function() { snippet(context) }, interval*1000);
 		};
