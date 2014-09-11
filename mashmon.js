@@ -22,6 +22,26 @@ var default_elements=3;
 var default_speed="normal";
 var default_interval=0; //0 = disabled
 
+// Reload the object
+function reload(obj) {
+		if (!obj.hasClass("static")) {
+			if (obj.hasClass("snippet")) {
+				snippet(obj)
+			} else {
+				obj.find('.snippet').each(function() {
+					snippet(this);
+				});
+				obj.find("img").each(function() {
+					// Add a timestamp to force the reload
+					var origin = $(this).data("src");
+					if (!! origin) {
+						this.src=origin+"#"+$.now();
+					}
+				});
+			}
+		}
+}
+
 // Does a single sliding action on an object
 function slide(obj)
 {
@@ -34,21 +54,8 @@ function slide(obj)
 	});
 
 	//show last element and then reload a next one
-	$(obj).children(".element:eq("+elements+")").animate({width: 'show'}, speed, function()
-	{
-		var next=$(this).next(".element");
-		if (!next.hasClass("static"))
-		{
-			if (next.hasClass("snippet"))
-				snippet(next)
-			else
-			{
-				next.children("img").each(function()
-				{
-					this.src=$(this).data("src")+"#"+new Date().getTime();
-				});
-			}
-		}
+	$(obj).children(".element:eq("+elements+")").animate({width: 'show'}, speed, function()	{
+		reload($(this).next(".element"));
 	});
 }
 
@@ -63,20 +70,8 @@ function fade(obj)
 
 	// show next element
 	var next = child.next(".element");
-	next.fadeIn(speed, function()
-	{
-		//reload next elemnt
-		var next=$(this).next(".element");
-		if (!next.hasClass("static"))
-		{
-			if (next.hasClass("snippet"))
-				snippet(next);
-			else
-				next.children("img").each(function()
-				{
-					this.src=$(this).data("src")+"#"+new Date().getTime();
-				});
-		}
+	next.fadeIn(speed, function() {
+		reload($(this).next(".element"));
 	});
 }
 
