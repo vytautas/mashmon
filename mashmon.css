@@ -30,3 +30,10 @@ body {
 .slide.vertical > .element {
 	clear: both;
 }
+.fade {
+       position: relative;
+}
+
+.fade .element {
+       position: absolute;
+}

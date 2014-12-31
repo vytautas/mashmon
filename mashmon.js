@@ -178,10 +178,6 @@ $(function()
 	//Activate fades
 	$(".fade").each(function()
 	{
-		//fix elements positions
-		$(this).css({'position': 'relative'});
-		$(this).children(".element").each(function() { $(this).css({'position': 'absolute', 'top': '0', 'left': '0'}); });
-
 		//Initial hide
 		$(this).children(".element:gt(0)").hide();
 
