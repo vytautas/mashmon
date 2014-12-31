@@ -67,13 +67,16 @@ function slide(obj)
 function fade(obj)
 {
 	var speed=$(obj).data("speed")?$(obj).data("speed"):default_speed;
-
-	// hide first element and move it to the end
 	var child = $(obj).children(".element:first");
-	child.fadeOut(speed, function() { $(this).appendTo($(this).parent()); });
-
-	// show next element
 	var next = child.next(".element");
+
+	//Fix parent width
+	if (!!$(obj).data("autosize")) {
+		$(obj).css({'width': next.width(), 'height': next.height()});
+	}
+
+	// hide first element, move it to the end and show the next one
+	child.fadeOut(speed, function() { $(this).appendTo($(this).parent()); });
 	next.fadeIn(speed, function() {
 		reload($(this).next(".element"));
 	});
@@ -180,8 +183,12 @@ $(function()
 	{
 		//Fix parent width
 		if (!!$(this).data("autosize")) {
-			var child=$(this).children(".element:first")
-			$(this).css({'width': child.width(), 'height': child.height()});
+			var child=$(this).children(".element:first");
+			var size=child.css(['width', 'height']);
+			$(this).css({
+				'width': size.width>0?size.width:1,
+				'height': size.height>0?size.height:1,
+			});
 		}
 
 		//Initial hide
