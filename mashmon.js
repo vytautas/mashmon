@@ -178,6 +178,12 @@ $(function()
 	//Activate fades
 	$(".fade").each(function()
 	{
+		//Fix parent width
+		if (!!$(this).data("autosize")) {
+			var child=$(this).children(".element:first")
+			$(this).css({'width': child.width(), 'height': child.height()});
+		}
+
 		//Initial hide
 		$(this).children(".element:gt(0)").hide();
 
